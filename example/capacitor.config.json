@@ -1,0 +1,9 @@
+{
+  "appId": "com.hermes.mediaqueue.demo",
+  "appName": "MediaQueue Demo",
+  "webDir": "www",
+  "loggingBehavior": "debug",
+  "server": {
+    "cleartext": true
+  }
+}

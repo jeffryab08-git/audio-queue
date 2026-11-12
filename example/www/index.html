@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b0b0f" />
+    <title>MediaQueue Demo</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0b0b0f;
+        --panel: #14141b;
+        --panel-2: #1b1b25;
+        --text: #f2f2f5;
+        --muted: #9a9aab;
+        --accent: #1ed760;
+        --danger: #ff5b5b;
+      }
+      * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: radial-gradient(1200px 600px at 20% -10%, #1c2a20 0%, var(--bg) 55%);
+        color: var(--text);
+        font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        padding: 18px 16px 40px;
+      }
+      h1 { font-size: 20px; margin: 0 0 2px; letter-spacing: -0.02em; }
+      .sub { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+      .card { background: var(--panel); border: 1px solid #24242f; border-radius: 16px; padding: 14px; margin-bottom: 14px; }
+      .row { display: flex; align-items: center; gap: 10px; }
+      .between { justify-content: space-between; }
+      .badge { font-size: 11px; padding: 3px 8px; border-radius: 999px; background: #24242f; color: var(--muted); }
+      .badge.native { background: #14351f; color: var(--accent); }
+      .now { font-size: 17px; font-weight: 600; margin: 2px 0; }
+      .now small { display: block; color: var(--muted); font-weight: 400; font-size: 13px; }
+      .bar { height: 4px; background: #26262f; border-radius: 4px; overflow: hidden; margin: 12px 0 6px; }
+      .bar > i { display: block; height: 100%; width: 0; background: var(--accent); }
+      .times { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; }
+      .controls { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 12px; }
+      button { font: inherit; color: var(--text); background: var(--panel-2); border: 1px solid #2c2c38; border-radius: 12px; padding: 10px 14px; }
+      button:active { transform: scale(0.97); }
+      .round { width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; font-size: 20px; }
+      .round.primary { background: var(--accent); color: #06210f; border-color: transparent; }
+      .small { padding: 7px 10px; font-size: 13px; border-radius: 10px; }
+      ol { list-style: none; padding: 0; margin: 0; }
+      li { display: flex; gap: 10px; align-items: center; padding: 9px 6px; border-radius: 10px; }
+      li + li { border-top: 1px solid #20202a; }
+      li.playing { background: #16231a; }
+      li .idx { color: var(--muted); font-variant-numeric: tabular-nums; width: 20px; text-align: right; }
+      li .meta { flex: 1; min-width: 0; }
+      li .meta b { display: block; font-weight: 600; font-size: 14px; }
+      li .meta span { color: var(--muted); font-size: 12px; }
+      li.playing b { color: var(--accent); }
+      pre { margin: 0; white-space: pre-wrap; word-break: break-word; font-size: 11px; color: var(--muted); max-height: 190px; overflow: auto; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    </style>
+  </head>
+  <body>
+    <h1>MediaQueue</h1>
+    <div class="sub">Cola nativa + precarga del siguiente track · demo mínima</div>
+
+    <div class="card">
+      <div class="row between">
+        <span class="badge" id="engine">engine: …</span>
+        <span class="badge" id="repeat">repeat: off</span>
+      </div>
+      <div class="now" id="nowTitle">Sin reproducción<small id="nowArtist">—</small></div>
+      <div class="bar"><i id="progress"></i></div>
+      <div class="times"><span id="pos">0:00</span><span id="dur">0:00</span></div>
+      <div class="controls">
+        <button class="round" id="prev" aria-label="Anterior">⏮</button>
+        <button class="round primary" id="toggle" aria-label="Play/Pausa">▶</button>
+        <button class="round" id="next" aria-label="Siguiente">⏭</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row between" style="margin-bottom: 8px">
+        <b style="font-size: 13px">Cola</b>
+        <span class="badge" id="queueInfo">0 tracks</span>
+      </div>
+      <ol id="list"></ol>
+    </div>
+
+    <div class="card">
+      <div class="grid">
+        <button class="small" id="add">+ Añadir al final</button>
+        <button class="small" id="playnext">+ Reproducir ahora</button>
+        <button class="small" id="remove">− Quitar actual</button>
+        <button class="small" id="move">↕ Mover actual</button>
+        <button class="small" id="cycleRepeat">Repetir…</button>
+        <button class="small" id="stop">■ Stop</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row between" style="margin-bottom: 6px">
+        <b style="font-size: 13px">Eventos</b>
+        <button class="small" id="clear">limpiar</button>
+      </div>
+      <pre id="log"></pre>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

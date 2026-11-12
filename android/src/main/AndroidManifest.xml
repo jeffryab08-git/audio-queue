@@ -1,0 +1,29 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Foreground service + media playback (Android 14 requires the typed
+         permission in addition to FOREGROUND_SERVICE). -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <!-- Held by ExoPlayer while playing (C.WAKE_MODE_NETWORK) so the CPU keeps
+         decoding and the Wi-Fi radio stays awake during a transition. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- Android 13+: the media notification needs the runtime notification grant. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application>
+        <!-- MediaSessionService = foreground service + MediaSession + notification.
+             exported=true is required so Assistant, Android Auto, Bluetooth
+             devices and Wear OS can connect through the MediaSessionService
+             intent filter. -->
+        <service
+            android:name="com.hermes.mediaqueue.PlaybackService"
+            android:exported="true"
+            android:foregroundServiceType="mediaPlayback">
+            <intent-filter>
+                <action android:name="androidx.media3.session.MediaSessionService" />
+            </intent-filter>
+        </service>
+    </application>
+</manifest>

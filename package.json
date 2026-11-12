@@ -1,0 +1,63 @@
+{
+  "name": "capacitor-media-queue",
+  "version": "0.1.0",
+  "description": "Continuous background audio queue for Capacitor: native Media3/AVQueuePlayer queue with next-track preload, lock-screen controls and Doze-resistant playback.",
+  "license": "MIT",
+  "author": "Hermes / REA",
+  "type": "module",
+  "main": "dist/esm/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/esm/index.d.ts",
+      "import": "./dist/esm/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/",
+    "android/",
+    "ios/",
+    "web/",
+    "Package.swift",
+    "MediaQueue.podspec",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test test/",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build:example": "tsc -p tsconfig.json && node scripts/copy-vendor.mjs"
+  },
+  "peerDependencies": {
+    "@capacitor/core": ">=6.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@capacitor/core": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  },
+  "keywords": [
+    "capacitor",
+    "audio",
+    "background",
+    "media3",
+    "exoplayer",
+    "avqueueplayer",
+    "gapless",
+    "media-session"
+  ],
+  "capacitor": {
+    "android": {
+      "src": "android"
+    },
+    "ios": {
+      "src": "ios"
+    }
+  }
+}

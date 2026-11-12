@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b0b0f" />
+    <title>MediaQueue · PWA fallback</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <style>
+      :root { color-scheme: dark; }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0 auto; max-width: 620px; padding: 20px 16px 48px; min-height: 100vh;
+        background: radial-gradient(1100px 520px at 15% -10%, #1c2a20 0%, #0b0b0f 55%);
+        color: #f2f2f5; font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+      h1 { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: #7d7d8f; margin: 0 0 6px; }
+      h2 { font-size: 22px; margin: 0 0 4px; letter-spacing: -.02em; }
+      .sub { color: #9a9aab; font-size: 13px; margin-bottom: 18px; }
+      .card { background: #14141b; border: 1px solid #24242f; border-radius: 16px; padding: 14px; margin-bottom: 14px; }
+      .row { display: flex; align-items: center; gap: 10px; }
+      .between { justify-content: space-between; }
+      .badge { font-size: 11px; padding: 3px 8px; border-radius: 999px; background: #24242f; color: #9a9aab; }
+      .badge.ok { background: #14351f; color: #1ed760; }
+      .now { font-size: 17px; font-weight: 600; margin: 8px 0 2px; }
+      .now small { display: block; color: #9a9aab; font-weight: 400; font-size: 13px; }
+      .bar { height: 4px; background: #26262f; border-radius: 4px; overflow: hidden; margin: 12px 0 6px; }
+      .bar > i { display: block; height: 100%; width: 0; background: #1ed760; }
+      .times { display: flex; justify-content: space-between; color: #9a9aab; font-size: 12px; }
+      .controls { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 12px; }
+      button { font: inherit; color: #f2f2f5; background: #1b1b25; border: 1px solid #2c2c38; border-radius: 12px; padding: 10px 14px; }
+      .round { width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; font-size: 20px; }
+      .round.primary { background: #1ed760; color: #06210f; border-color: transparent; }
+      .small { padding: 7px 10px; font-size: 13px; border-radius: 10px; }
+      ol { list-style: none; padding: 0; margin: 0; }
+      li { display: flex; gap: 10px; padding: 9px 6px; border-radius: 10px; }
+      li + li { border-top: 1px solid #20202a; }
+      li.playing { background: #16231a; }
+      li .idx { color: #9a9aab; width: 20px; text-align: right; }
+      li b { font-weight: 600; font-size: 14px; }
+      li.playing b { color: #1ed760; }
+      li span.artist { display: block; color: #9a9aab; font-size: 12px; }
+      pre { margin: 0; white-space: pre-wrap; font-size: 11px; color: #9a9aab; max-height: 160px; overflow: auto;
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+      .note { font-size: 12px; color: #7d7d8f; line-height: 1.5; }
+    </style>
+  </head>
+  <body>
+    <h1>Fallback web</h1>
+    <h2>MediaQueue</h2>
+    <div class="sub">Media Session API + doble &lt;audio&gt; precargado. Sin servicios nativos.</div>
+
+    <div class="card">
+      <div class="row between">
+        <span class="badge" id="engine">engine: web</span>
+        <span class="badge" id="wake">wake lock: —</span>
+      </div>
+      <div class="now" id="now">Sin reproducción<small id="artist">—</small></div>
+      <div class="bar"><i id="progress"></i></div>
+      <div class="times"><span id="pos">0:00</span><span id="dur">0:00</span></div>
+      <div class="controls">
+        <button class="round" id="prev">⏮</button>
+        <button class="round primary" id="toggle">▶</button>
+        <button class="round" id="next">⏭</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row between" style="margin-bottom: 8px"><b style="font-size: 13px">Cola</b><span class="badge" id="qinfo">0</span></div>
+      <ol id="list"></ol>
+    </div>
+
+    <div class="card">
+      <div class="row between" style="margin-bottom: 6px"><b style="font-size: 13px">Eventos</b><button class="small" id="clear">limpiar</button></div>
+      <pre id="log"></pre>
+    </div>
+
+    <div class="card note">
+      En móvil, este fallback no garantiza audio continuo con la pantalla apagada: el navegador puede congelar la
+      página. <b>Usa los motores nativos</b> (Android/iOS) para reproducción en background real. Detalles en
+      <code>docs/LIMITATIONS.md</code>.
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

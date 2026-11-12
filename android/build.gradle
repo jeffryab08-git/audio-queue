@@ -1,0 +1,59 @@
+// Capacitor plugin android module.
+//
+// Pins: Media3 1.8.x is the last line whose AAR metadata still allows
+// compileSdk 35 (Media3 1.9+ requires 36). This module therefore builds on
+// Capacitor 7 (compileSdk 35) and Capacitor 8 (compileSdk 36) unchanged.
+buildscript {
+    ext.kotlin_version = rootProject.hasProperty('kotlin_version') ? rootProject.ext.kotlin_version : '2.1.0'
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+ext {
+    media3Version = rootProject.hasProperty('media3Version') ? rootProject.ext.media3Version : '1.8.0'
+}
+
+android {
+    namespace "com.hermes.mediaqueue"
+    compileSdk rootProject.hasProperty('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 35
+
+    defaultConfig {
+        minSdkVersion rootProject.hasProperty('minSdkVersion') ? rootProject.ext.minSdkVersion : 23
+        targetSdkVersion rootProject.hasProperty('targetSdkVersion') ? rootProject.ext.targetSdkVersion : 35
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':capacitor-android')
+
+    implementation "androidx.media3:media3-exoplayer:$media3Version"
+    implementation "androidx.media3:media3-session:$media3Version"
+    implementation "androidx.media3:media3-datasource:$media3Version"
+    implementation "androidx.media3:media3-database:$media3Version"
+    implementation "androidx.media3:media3-common:$media3Version"
+
+    implementation "androidx.core:core-ktx:1.13.1"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
