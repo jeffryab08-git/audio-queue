@@ -1,0 +1,26 @@
+{
+  "name": "mi-music-player",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "App music player tipo Spotify con reproducción de audio continua en background",
+  "scripts": {
+    "build": "aquí-tu-comando-de-build-web",
+    "sync:android": "npm run build && npx cap sync android",
+    "sync:ios": "npm run build && npx cap sync ios",
+    "sync": "npm run build && npx cap sync",
+    "open:android": "npx cap open android",
+    "open:ios": "npx cap open ios",
+    "run:android": "npx cap run android",
+    "run:ios": "npx cap run ios"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.6.0",
+    "@capacitor/core": "^8.6.0",
+    "@capacitor/ios": "^8.6.0",
+    "capacitor-media-queue": "file:../audio-queue"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.6.0"
+  }
+}

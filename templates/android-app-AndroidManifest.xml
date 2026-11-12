@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Va en: android/app/src/main/AndroidManifest.xml de tu app.
+  Lo genera `npx cap add android` con una plantilla base; esta versión muestra
+  lo mínimo necesario. El manifest del PLUGIN (capacitor-media-queue) se
+  fusiona automáticamente al hacer `npx cap sync` y aporta:
+    - FOREGROUND_SERVICE
+    - FOREGROUND_SERVICE_MEDIA_PLAYBACK (Android 14+)
+    - WAKE_LOCK
+    - POST_NOTIFICATIONS (Android 13+)
+    - ACCESS_NETWORK_STATE
+    - La declaración del <service> PlaybackService con
+      foregroundServiceType="mediaPlayback"
+
+  NO repitas esos permisos ni el <service> aquí: Gradle los fusiona y
+  duplicarlos causa warnings o errores de manifest merger.
+
+  Lo único que típicamente necesitas añadir aquí encima de lo que genera
+  `cap add android` es POST_NOTIFICATIONS (si no lo heredas del plugin), pero
+  como el plugin ya lo declara, normalmente no hace falta tocar nada.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode|navigation|density"
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBarLaunch"
+            android:launchMode="singleTask"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
+
+        <!--
+          El <service> de PlaybackService NO va aquí. Lo aporta el manifest
+          del plugin capacitor-media-queue y Gradle lo fusiona. Si lo ves
+          duplicado al compilar, bórralo de aquí (deja el del plugin).
+        -->
+
+    </application>
+
+    <!-- INTERNET es el único permiso que conviene tener explícito en la app
+         (lo aporta el plugin también, pero tenerlo aquí no causa conflicto). -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+</manifest>

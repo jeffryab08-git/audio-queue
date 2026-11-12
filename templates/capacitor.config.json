@@ -1,0 +1,8 @@
+{
+  "appId": "com.tuempresa.musicplayer",
+  "appName": "Mi Music Player",
+  "webDir": "www",
+  "server": {
+    "cleartext": true
+  }
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Snippet a fusionar dentro de ios/App/App/Info.plist de tu app.
+  Lo genera `npx cap add ios` SIN el bloque UIBackgroundModes. Tienes que
+  añadirlo manualmente: es lo que permite que el audio siga sonando con la
+  pantalla bloqueada en iOS.
+
+  Pasos:
+  1. Abre ios/App/App/Info.plist en Xcode (o editor de texto).
+  2. Añade la clave UIBackgroundModes con un array que contenga "audio".
+  3. Verifica en Xcode → Signing & Capabilities → Background Modes que el
+     checkbox "Audio, AirPlay, and Picture in Picture" está marcado.
+
+  Sin este cambio, iOS suspende la app en cuanto la pantalla se bloquea y
+  el audio se corta, aunque el código Swift del plugin esté bien escrito.
+-->
+<plist version="1.0">
+<dict>
+    <!-- ... tus otras claves existentes (CFBundleIdentifier, etc.) ... -->
+
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>audio</string>
+    </array>
+
+    <!-- ... resto del Info.plist ... -->
+</dict>
+</plist>
